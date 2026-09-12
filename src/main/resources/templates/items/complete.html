@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>購入完了</title>
+	
+	<style>
+	    body {
+	        font-family: Arial, sans-serif;
+	        margin: 40px;
+	    }
+
+	    /* タイトル */
+	    .page-title {
+	        border-bottom: 30px solid rgb(248, 222, 194);
+	        padding-bottom: 10px;
+	        margin-bottom: 30px;
+	    }
+
+	    /* TOP画面へ戻るボタン */
+	    button {
+	        background-color: rgb(255, 128, 64);
+	        color: white;
+	        border: none;
+	        padding: 5px 10px;
+	        border-radius: 5px;
+	        cursor: pointer;
+	        margin-top: 20px;
+	    }
+
+	    button:hover {
+	        opacity: 0.8;
+	    }
+	</style>
+</head>
+
+<body>
+
+    <h1 class="page-title">注文完了</h1>
+
+    <!-- 購入者情報を固定表示 -->
+    <p>
+        住所：
+        <span th:text="${purchaseForm.address}"></span>
+    </p>
+
+    <p>
+        名前：
+        <span th:text="${purchaseForm.name}"></span>
+    </p>
+
+    <p>
+        アパート名：
+        <span th:text="${purchaseForm.apartment}"></span>
+    </p>
+
+    <p>
+        カード情報：
+        <span th:text="${purchaseForm.card}"></span>
+    </p>
+
+    <p>
+        合計金額：
+        <span th:text="${totalPrice}"></span>円
+    </p>
+
+    <!-- TOP画面へ戻る -->
+    <form th:action="@{/top}" method="get">
+        <button type="submit">TOP画面へ戻る</button>
+    </form>
+
+</body>
+</html>

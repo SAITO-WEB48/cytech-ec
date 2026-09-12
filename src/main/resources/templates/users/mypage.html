@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>マイページ</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        .main-content {
+            margin: 40px;
+        }
+
+        .page-title {
+            border-bottom: 30px solid rgb(248, 222, 194);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        .mypage-area {
+            width: 500px;
+        }
+
+        .user-info {
+            margin-bottom: 20px;
+        }
+
+        .label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 共通ヘッダー -->
+    <div th:replace="~{common/header :: layout-header}"></div>
+
+    <main class="main-content">
+
+        <h1 class="page-title">マイページ</h1>
+
+        <div class="mypage-area">
+
+            <div class="user-info">
+                <div class="label">名前</div>
+                <span th:text="${user.userName}"></span>
+            </div>
+
+            <div class="user-info">
+                <div class="label">ひらがな表記</div>
+                <span th:text="${user.hiragana}"></span>
+            </div>
+
+            <div class="user-info">
+                <div class="label">電話番号</div>
+                <span th:text="${user.phone}"></span>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- 共通フッター -->
+    <div th:replace="~{common/footer :: layout-footer}"></div>
+
+</body>
+</html>

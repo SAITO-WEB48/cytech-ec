@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ヘッダー</title>
+</head>
+
+<body>
+
+<header id="header" th:fragment="layout-header">
+
+    <style>
+        .header-area {
+            background-color: rgb(128, 128, 128);
+            color: white;
+
+            display: flex;
+            align-items: center;
+            gap: 20px;
+
+            width: 100%;
+            min-height: 70px;
+
+            padding: 0 40px;
+            box-sizing: border-box;
+        }
+
+        .header-logo {
+            width: 150px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        /* 検索フォームを横並び */
+        .header-search-form {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+        }
+
+        .search-input {
+            width: 220px;
+            height: 38px;
+            padding: 8px 10px;
+            box-sizing: border-box;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .category-select {
+            width: 190px;
+            height: 38px;
+            padding: 8px;
+            box-sizing: border-box;
+            border-radius: 5px;
+        }
+
+        .search-button {
+            height: 38px;
+            background-color: #202428;
+            color: white;
+            border: 1px solid white;
+            padding: 0 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0;
+        }
+
+        .mypage-button {
+            background-color: #0d6efd;
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            white-space: nowrap;
+        }
+
+        .user-area {
+            font-size: 13px;
+            line-height: 1.6;
+            white-space: nowrap;
+        }
+
+        .logout-link {
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+
+
+    <div class="header-area">
+
+        <div class="header-logo">
+            Cytech EC.
+        </div>
+
+
+        <form th:action="@{/items/findAll}"
+              method="get"
+              class="header-search-form">
+
+            <input type="text"
+                   name="keyword"
+                   class="search-input"
+                   placeholder="商品名">
+
+				   <select name="category"
+				           class="category-select">
+
+				       <option value=""
+				               th:selected="${category == null || category == ''}">
+				           すべて
+				       </option>
+
+				       <option value="イヤホン"
+				               th:selected="${category == 'イヤホン'}">
+				           イヤホン
+				       </option>
+
+				       <option value="スマートフォン"
+				               th:selected="${category == 'スマートフォン'}">
+				           スマートフォン
+				       </option>
+
+				       <option value="スマートウォッチ"
+				               th:selected="${category == 'スマートウォッチ'}">
+				           スマートウォッチ
+				       </option>
+
+				       <option value="タブレット"
+				               th:selected="${category == 'タブレット'}">
+				           タブレット
+				       </option>
+
+				       <option value="パソコン"
+				               th:selected="${category == 'パソコン'}">
+				           ノートパソコン
+				       </option>
+
+				   </select>
+            <button type="submit"
+                    class="search-button">
+                検索
+            </button>
+
+        </form>
+
+
+		<a th:href="@{/mypage}"
+		   class="mypage-button">
+		    マイページ
+		</a>
+
+
+        <div class="user-area">
+
+			<div>
+			    ユーザー名：
+			    <span th:text="${session.userName}"></span>
+			</div>
+
+			<a th:href="@{/logout}"
+			   class="logout-link">
+			    ログアウト
+			</a>
+        </div>
+
+    </div>
+
+</header>
+
+</body>
+</html>

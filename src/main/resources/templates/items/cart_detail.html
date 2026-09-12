@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>カート内詳細画面</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        /* タイトル */
+        .page-title {
+            border-bottom: 30px solid rgb(248, 222, 194);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        /* カート全体 */
+        .cart-layout {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        /* 商品ごとの表示 */
+        .cart-item {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        /* 商品画像 */
+        .item-image img {
+            width: 450px;
+            height: 300px;
+            object-fit: contain;
+        }
+
+        /* 商品情報 */
+        .item-info {
+            width: 300px;
+            font-size: 18px;
+        }
+
+        .item-info p {
+            margin: 12px 0;
+        }
+
+        /* 数量 */
+        select {
+            padding: 8px;
+            width: 150px;
+        }
+
+        /* カート合計 */
+        .cart-total {
+            border: 1px solid #ddd;
+            padding: 20px;
+            width: 250px;
+            box-sizing: border-box;
+        }
+
+        .cart-total h2 {
+            margin-top: 0;
+        }
+
+        /* ボタン */
+        button {
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .change-button {
+            background-color: rgb(255, 128, 64);
+        }
+
+        .delete-button {
+            background-color: #dc3545;
+        }
+
+        .purchase-button {
+            background-color: rgb(255, 128, 64);
+        }
+
+        .top-button {
+            background-color: rgb(255, 128, 64);
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        /* 下のボタン */
+        .button-area {
+            display: flex;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        form {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+	<!-- 共通ヘッダー -->
+	<div th:replace="~{common/header :: layout-header}"></div>
+
+    <h1 class="page-title">カート詳細画面</h1>
+
+
+    <div class="cart-layout">
+
+        <!-- 左側：カート商品 -->
+        <div>
+
+            <div th:each="cartItem : ${cart}"
+                 class="cart-item">
+
+                <!-- 商品画像 -->
+                <div class="item-image">
+                    <img th:src="${cartItem.item.image}">
+                </div>
+
+
+                <!-- 商品情報 -->
+                <div class="item-info">
+
+                    <p>
+                        商品名：
+                        <span th:text="${cartItem.item.name}"></span>
+                    </p>
+
+                    <!-- 数量変更 -->
+                    <form th:action="@{/cart/update/{id}(id=${cartItem.item.id})}"
+                          method="post">
+
+                        <p>
+                            数量：
+                        </p>
+
+                        <select name="quantity">
+                            <option
+                                th:each="num : ${#numbers.sequence(1, cartItem.item.stock)}"
+                                th:value="${num}"
+                                th:text="${num}"
+                                th:selected="${num == cartItem.quantity}">
+                            </option>
+                        </select>
+
+                        <button type="submit"
+                                class="change-button">
+                            変更
+                        </button>
+
+                    </form>
+
+                    <p>
+                        税抜価格：
+                        <span th:text="${cartItem.item.price}"></span>円
+                    </p>
+
+                    <p>
+                        税込価格：
+                        <span th:text="${cartItem.item.taxIncludedPrice}"></span>円
+                    </p>
+
+                    <!-- 削除 -->
+                    <form th:action="@{/cart/delete/{id}(id=${cartItem.item.id})}"
+                          method="post">
+
+                        <button type="submit"
+                                class="delete-button">
+                            削除
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- 右側：カート合計 -->
+        <div class="cart-total">
+
+            <p>
+                個数：
+                <span th:text="${totalQuantity}"></span>個
+            </p>
+
+            <p>
+                金額：
+                <span th:text="${totalPrice}"></span>円
+            </p>
+
+            <p>
+                消費税込み金額：
+                <span th:text="${totalTaxIncludedPrice}"></span>円
+            </p>
+
+            <form th:action="@{/cart/purchase}"
+                  method="get">
+
+                <button type="submit"
+                        class="purchase-button">
+                    レジに進む
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- 下 -->
+    <div class="button-area">
+
+        <form th:action="@{/top}" method="get">
+            <button type="submit"
+                    class="top-button">
+                TOP画面に戻る
+            </button>
+        </form>
+
+    </div>
+	<!-- 共通フッター -->
+	<div th:replace="~{common/footer :: layout-footer}"></div>
+</body>
+</html>

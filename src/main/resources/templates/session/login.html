@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ログイン</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        /* オレンジライン */
+        .page-title {
+            border-bottom: 30px solid rgb(248, 222, 194);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        /* ログインフォーム */
+        .login-area {
+            width: 500px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        /* ボタン */
+        .button-area {
+            display: flex;
+            gap: 100px;
+            margin-top: 35px;
+        }
+
+        .button-area form {
+            margin: 0;
+        }
+
+        button {
+            background-color: rgb(255, 128, 64);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+		
+		.register-button {
+		    background-color: rgb(255, 128, 64);
+		    color: white;
+		    text-decoration: none;
+		    padding: 10px 25px;
+		    border-radius: 5px;
+		}
+
+		.register-button:hover {
+		    opacity: 0.8;
+		}
+    </style>
+</head>
+
+<body>
+
+    <h1 class="page-title">ログイン画面</h1>
+
+    <div class="login-area">
+
+        <!-- ログインフォーム -->
+		<form method="post" th:action="@{/doLogin}">
+
+		    <div class="form-group">
+		        <label>メールアドレス</label>
+		        <input type="email"
+		               name="email"
+		               placeholder="メールアドレス"
+		               required>
+		    </div>
+
+		    <div class="form-group">
+		        <label>パスワード</label>
+		        <input type="password"
+		               name="password"
+		               placeholder="パスワード"
+		               required>
+		    </div>
+
+		    <div class="button-area">
+
+		        <button type="submit">
+		            ログイン
+		        </button>
+
+		        <a th:href="@{/users/register}"
+		           class="register-button">
+		            新規登録
+		        </a>
+
+		    </div>
+
+		</form>

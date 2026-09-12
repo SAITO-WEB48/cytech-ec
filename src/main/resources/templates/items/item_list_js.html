@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+
+    <link th:href="@{/css/cytech.css}" rel="stylesheet">   //これから作る CSSとJavaScriptを読み込む部分
+    <script th:src="@{/js/cytech.js}" type="text/javascript"></script> //これから作る CSSとJavaScriptを読み込む部分
+</head>
+
+<body>
+
+    <div>商品の一覧</div>
+
+    <h2>果物のセール品</h2>
+    <p th:text="#{message.sale}"></p>
+
+    <table class="item">
+        <tr>
+            <th>商品番号</th>
+            <th>商品名</th>
+            <th>価格</th>
+        </tr>
+
+        <tr th:each="item:${items}"> //controllerから受け取る。商品を一個ずつ表示してる。
+            <td th:text="${item.id}"></td>
+            <td th:text="${item.name}"></td>
+            <td th:text="${item.price}"></td>
+        </tr>
+    </table>
+
+</body>
+
+</html>

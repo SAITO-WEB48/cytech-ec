@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>購入品確認</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        /* タイトル */
+        .page-title {
+            border-bottom: 30px solid rgb(248, 222, 194);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        /* 確認内容 */
+        .confirm-area {
+            margin-left: 10px;
+            font-size: 18px;
+        }
+
+        .confirm-area p {
+            margin: 10px 0;
+        }
+
+        /* 商品ごとの区切り */
+        .cart-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        /* ボタン横並び */
+        .button-area {
+            display: flex;
+            gap: 40px;
+            margin-top: 35px;
+        }
+
+        .button-area form {
+            margin: 0;
+        }
+
+        button {
+            border: none;
+            padding: 10px 25px;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* 編集 */
+        .edit-button {
+            background-color: #dc3545;
+        }
+
+        /* 購入 */
+        .purchase-button {
+            background-color: rgb(255, 128, 64);
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1 class="page-title">購入確認画面</h1>
+
+    <div class="confirm-area">
+
+        <!-- お客様情報 -->
+        <p>
+            名前：
+            <span th:text="${purchaseForm.name}"></span>
+        </p>
+
+        <p>
+            住所：
+            <span th:text="${purchaseForm.address}"></span>
+        </p>
+
+        <p>
+            アパート名：
+            <span th:text="${purchaseForm.apartment}"></span>
+        </p>
+
+
+        <!-- カートの商品を繰り返し表示 -->
+        <div th:each="cartItem : ${cart}" class="cart-item">
+
+            <p>
+                商品名：
+                <span th:text="${cartItem.item.name}"></span>
+            </p>
+
+            <p>
+                個数：
+                <span th:text="${cartItem.quantity}"></span>個
+            </p>
+
+            <p>
+                税込価格：
+                <span th:text="${cartItem.item.taxIncludedPrice}"></span>円
+            </p>
+
+        </div>
+
+
+        <!-- カート全体の合計 -->
+        <p>
+            合計金額：
+            <span th:text="${totalTaxIncludedPrice}"></span>円
+        </p>
+
+    </div>
+
+
+    <div class="button-area">
+
+        <!-- 編集 → カート購入品詳細へ戻る -->
+        <form th:action="@{/cart/purchase}" method="get">
+
+            <button type="submit"
+                    class="edit-button">
+                編集
+            </button>
+
+        </form>
+
+
+        <!-- 購入 -->
+        <form th:action="@{/cart/purchase/complete}" method="post">
+
+            <input type="hidden"
+                   name="name"
+                   th:value="${purchaseForm.name}">
+
+            <input type="hidden"
+                   name="address"
+                   th:value="${purchaseForm.address}">
+
+            <input type="hidden"
+                   name="apartment"
+                   th:value="${purchaseForm.apartment}">
+
+            <input type="hidden"
+                   name="card"
+                   th:value="${purchaseForm.card}">
+
+            <input type="hidden"
+                   name="expirationDate"
+                   th:value="${purchaseForm.expirationDate}">
+
+            <button type="submit"
+                    class="purchase-button">
+                購入
+            </button>
+
+        </form>
+
+    </div>
+
+</body>
+</html>

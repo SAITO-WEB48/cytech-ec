@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+    <div>Top</div>
+    <div th:text="${session.userId}"></div>
+    <a th:href="@{/loginOnSession}">Login</a>
+    <a th:href="@{/logout}">logout</a>
+    <br>
+    <a th:href="@{/items/findAll}">全件検索</a>
+	<a th:href="@{/items/findAllByOrderPriceDesc}">並び替え</a>
+	<br>
+	<a th:href="@{/items/getOne/1}">主キー検索</a>
+	<a th:href="@{/items/getOne/3}">主キー検索</a>
+	<br>
+	<a th:href="@{/items/findByPrice/300}">価格検索</a>
+	<br>
+	<a th:href="@{/items/findByNameAndPrice/ドラゴンフルーツ/300}">名前と価格による検索</a>
+	<br>
+	<a th:href="@{/items/findByNameLike/も}">曖昧検索</a>
+	<br>
+	<a th:href="@{/items/create/input}">登録</a>
+	<br>
+	<a th:href="@{/items/update/input/1}">更新</a>
+	<br>
+	<a th:href="@{/items/delete/input}">削除</a>
+	<br>
+	<a th:href="@{/items/findItemAndCategory}">外部参照検索</a>
+	<br>
+	<a th:href="@{/items/searchByCategoryId/3}">外部キー検索条件</a>
+	<br>
+	<a th:href="@{/items/searchWithNamedQuery/3}">NamedQuery</a>
+	<br>
+	<a th:href="@{/items/searchWithQuery/2}">Query検索</a>
+	<br>
+	<a th:href="@{/items/seachAverage}">平均以上検索</a>
+</body>
+</html>

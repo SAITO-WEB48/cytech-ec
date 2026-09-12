@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>商品詳細</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+		/*オレンジ線*/
+        .page-title {
+            border-bottom:30px solid rgb(248, 222, 194);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        .detail-area {
+            display: flex;
+            gap: 50px;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
+        .item-image img {
+            width: 450px;
+            height: 300px;
+            object-fit: contain;
+            border: 1px solid rgb(255, 255, 255);
+        }
+
+        .item-info {
+            width: 350px;
+        }
+
+        .item-info p {
+            margin: 15px 0;
+        }
+
+        .cart-box {
+            margin-top: 8px;
+            
+        }
+
+        button {
+            background-color: rgb(255, 128, 64);
+            color: white;
+            border: none;
+            padding: 10px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        .link-area {
+            margin-top: 30px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .review-area {
+            margin-top: 50px;
+        }
+
+        .review-title {
+            border-bottom: 3px solid rgb(248, 222, 194);
+            padding-bottom: 8px;
+        }
+
+        .review-box {
+            background-color: #fafafa;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+
+<body>
+	<!-- 共通ヘッダー -->
+	<div th:replace="~{common/header :: layout-header}"></div>
+
+    <h1 class="page-title">商品詳細画面</h1>
+
+    <div class="detail-area">
+
+        <!-- 商品画像 -->
+        <div class="item-image">
+            <img th:src="${item.image}">
+        </div>
+
+        <!-- 商品情報 -->
+        <div class="item-info">
+
+            <p>
+                商品名：
+                <span th:text="${item.name}"></span>
+            </p>
+
+            <p>
+                メーカー名：
+                <span th:text="${item.manufacturer}"></span>
+            </p>
+
+            <p>
+                税抜価格：
+                <span th:text="${item.price}"></span>円
+            </p>
+
+            <p>
+                税込価格：
+                <span th:text="${item.taxIncludedPrice}"></span>円
+            </p>
+
+            <!-- カート -->
+            <div class="cart-box">
+
+                <form th:action="@{/cart/add/{id}(id=${item.id})}" method="post">
+                    <button type="submit">カートに入れる</button>
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ボタン・リンク -->
+    <div class="link-area">
+
+        <a th:href="@{/items/findAll}">
+            商品一覧へ戻る
+        </a>
+
+        <a th:href="@{/purchase/{id}(id=${item.id})}">
+            単品購入
+        </a>
+
+        <form th:action="@{/reviews/form/{id}(id=${item.id})}" method="get">
+            <button type="submit">口コミ投稿</button>
+        </form>
+
+    </div>
+
+
+    <!-- 口コミ -->
+    <div class="review-area">
+
+        <h3 class="review-title">＜口コミ＞</h3>
+
+        <div class="review-box"
+             th:each="review : ${reviews}">
+
+            <p>
+                ユーザー名：
+                <span th:text="${review.userName}"></span>
+            </p>
+
+            <p>
+                評価：
+                <span th:text="${review.rating}"></span>
+            </p>
+
+            <p>
+                コメント：
+                <span th:text="${review.comment}"></span>
+            </p>
+
+        </div>
+
+    </div>
+	<!-- 共通フッター -->
+	<div th:replace="~{common/footer :: layout-footer}"></div>
+</body>
+
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>注文完了</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        /* オレンジライン */
+        .page-title {
+            border-bottom: 30px solid rgb(248, 222, 194);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        /* 商品ごとの区切り */
+        .cart-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        /* TOPへ戻るボタン */
+        button {
+            background-color: rgb(255, 128, 64);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+	<!-- 共通ヘッダー -->
+	<div th:replace="~{common/header :: layout-header}"></div>
+
+    <h1 class="page-title">注文完了</h1>
+
+    <!-- 購入者情報 -->
+    <p>
+        名前：
+        <span th:text="${purchaseForm.name}"></span>
+    </p>
+
+    <p>
+        住所：
+        <span th:text="${purchaseForm.address}"></span>
+    </p>
+
+    <p>
+        アパート名：
+        <span th:text="${purchaseForm.apartment}"></span>
+    </p>
+
+
+    <!-- 購入した商品 -->
+    <div th:each="cartItem : ${cart}" class="cart-item">
+
+        <p>
+            商品名：
+            <span th:text="${cartItem.item.name}"></span>
+        </p>
+
+        <p>
+            個数：
+            <span th:text="${cartItem.quantity}"></span>個
+        </p>
+
+    </div>
+
+
+    <!-- 合計金額 -->
+    <p>
+        合計金額：
+        <span th:text="${totalTaxIncludedPrice}"></span>円
+    </p>
+
+
+    <!-- TOP画面へ -->
+    <form th:action="@{/top}" method="get">
+
+        <button type="submit">
+            TOP画面へ戻る
+        </button>
+
+    </form>
+	<!-- 共通フッター -->
+	<div th:replace="~{common/footer :: layout-footer}"></div>
+</body>
+</html>

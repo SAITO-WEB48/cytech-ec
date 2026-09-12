@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>カート追加</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        /* タイトル */
+        .page-title {
+            border-bottom: 30px solid rgb(248, 222, 194);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        /* 商品画像＋商品情報 */
+        .cart-area {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+
+        /* 商品画像 */
+        .item-image img {
+            width: 450px;
+            height: 300px;
+            object-fit: contain;
+        }
+
+        /* 右側の商品情報 */
+        .item-info {
+            padding-top: 10px;
+            font-size: 18px;
+        }
+
+        .item-info p {
+            margin-bottom: 20px;
+        }
+
+        /* 下の3ボタン */
+		.button-area {
+		    display: flex;
+		    gap: 150px;
+		    margin-top: 30px;
+		    align-items: center;
+		}
+
+        button {
+            background-color: rgb(255, 128, 64);
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+	<!-- 共通ヘッダー -->
+	<div th:replace="~{common/header :: layout-header}"></div>
+
+    <h1 class="page-title">カート追加画面</h1>
+
+    <div class="cart-area">
+
+        <!-- 左側：商品画像 -->
+        <div class="item-image">
+            <img th:src="${item.image}" alt="商品画像">
+        </div>
+
+        <!-- 右側：商品情報 -->
+        <div class="item-info">
+
+            <p>
+                商品名：
+                <span th:text="${item.name}"></span>
+            </p>
+
+            <p>
+                個数：1個
+            </p>
+
+            <p>
+                カート内の合計：
+                <span th:text="${item.taxIncludedPrice}"></span>円
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- 下のボタン -->
+    <div class="button-area">
+
+        <!-- レジに進む -->
+        <form th:action="@{/purchase/{id}(id=${item.id})}" method="get">
+            <button type="submit">レジに進む</button>
+        </form>
+
+        <!-- カートに移動 -->
+        <form th:action="@{/cart}" method="get">
+            <button type="submit">カートに移動</button>
+        </form>
+
+        <!-- TOP画面に戻る -->
+        <form th:action="@{/top}" method="get">
+            <button type="submit">TOP画面に戻る</button>
+        </form>
+
+    </div>
+	<!-- 共通フッター -->
+	<div th:replace="~{common/footer :: layout-footer}"></div>
+</body>
+</html>
