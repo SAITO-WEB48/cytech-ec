@@ -1,12 +1,17 @@
 package jp.co.sss.cytech.controller;
 
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jp.co.sss.cytech.entity.Review;
+import jp.co.sss.cytech.form.ReviewForm;
 import jp.co.sss.cytech.repository.ReviewRepository;
 
 
@@ -25,8 +30,14 @@ public class ReviewController {
 	        @PathVariable Integer id,
 	        Model model) {
 
-	    // どの商品への口コミか分かるように商品IDをHTMLへ渡す
-	    model.addAttribute("itemId", id);
+	    // ReviewFormオブジェクトを作る
+	    ReviewForm form = new ReviewForm();
+
+	    // 商品IDをFormに入れる
+	    form.setItemId(id);
+
+	    // ReviewFormをHTMLへ渡す
+	    model.addAttribute("reviewForm", form);
 
 	    // 口コミ投稿画面を表示
 	    return "items/review_form";
@@ -35,26 +46,33 @@ public class ReviewController {
 	// 口コミ投稿
 	@RequestMapping("/reviews/post")
 	public String postReview(
-	        Integer itemId,
-	        String userName,
-	        Integer rating,
-	        String email,
-	        String comment) {
+	        @Valid @ModelAttribute ReviewForm form,
+	        BindingResult result) {
 
+		// 入力チェックでエラーがあった場合
+		if (result.hasErrors()) {
+		    return "items/review_form";
+		}
+		
 	    // Reviewオブジェクトを作る
 	    Review review = new Review();
 
 	    // HTMLから受け取った内容をReviewに入れる
-	    review.setItemId(itemId);
-	    review.setUserName(userName);
-	    review.setRating(rating);
-	    review.setEmail(email);
-	    review.setComment(comment);
-
+	    review.setItemId(form.getItemId());
+	    review.setUserName(form.getUserName());
+	    review.setRating(form.getRating());
+	    review.setEmail(form.getEmail());
+	    review.setComment(form.getComment());
 	    // MySQLに口コミを保存
-	    repository.save(review);
+	    try {
+	        repository.save(review);
+
+	    } catch (Exception e) {
+	        System.out.println("口コミの登録に失敗しました");
+	        return "items/review_form";
+	    }
 
 	    // 一覧画面へ戻る
-	    return "redirect:/items/findAll" ;
+	    return "redirect:/items/findAll";
 	}
 }

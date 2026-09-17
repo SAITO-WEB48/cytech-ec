@@ -88,53 +88,59 @@
 
     <h1 class="page-title">口コミ投稿画面</h1>
 
-    <form th:action="@{/reviews/post}"
-          method="post"
-          enctype="multipart/form-data"
-          class="review-form">
+	<form th:action="@{/reviews/post}"
+	      th:object="${reviewForm}"
+	      method="post"
+	      enctype="multipart/form-data"
+	      class="review-form">
 
-        <!-- 商品ID -->
-        <input type="hidden"
-               name="itemId"
-               th:value="${itemId}">
+		  <!-- 商品ID -->
+		  <input type="hidden" th:field="*{itemId}">
 
-        <!-- ユーザー名 -->
-        <div class="form-group">
-            <label>ユーザー名（任意）</label>
-            <input type="text"
-                   name="userName"
-                   placeholder="ユーザー名">
-        </div>
+		  <!-- ユーザー名 -->
+		  <div class="form-group">
+		      <label>ユーザー名（必須）</label>
 
-        <!-- 評価 -->
-        <div class="form-group">
-            <label>評価</label>
+		      <input type="text"
+		             th:field="*{userName}"
+		             placeholder="ユーザー名">
 
-            <select name="rating">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-        </div>
+		      <p th:if="${#fields.hasErrors('userName')}"
+		         th:errors="*{userName}"></p>
+		  </div>
 
-        <!-- メールアドレス -->
-        <div class="form-group">
-            <label>メールアドレス</label>
+		  <!-- 評価 -->
+		  <div class="form-group">
+		      <label>評価</label>
 
-            <input type="email"
-                   name="email"
-                   placeholder="メールアドレス">
-        </div>
+		      <select th:field="*{rating}">
+		          <option value="1">1</option>
+		          <option value="2">2</option>
+		          <option value="3">3</option>
+		          <option value="4">4</option>
+		          <option value="5">5</option>
+		      </select>
+		  </div>
 
-        <!-- コメント -->
-        <div class="form-group">
-            <label>コメント</label>
+		  <!-- メールアドレス -->
+		  <div class="form-group">
+		      <label>メールアドレス</label>
 
-            <textarea name="comment"
-                      maxlength="300"></textarea>
-        </div>
+		      <input type="email"
+		             th:field="*{email}"
+		             placeholder="メールアドレス">
+		  </div>
+
+		  <!-- コメント -->
+		  <div class="form-group">
+		      <label>コメント</label>
+
+		      <textarea th:field="*{comment}"
+		                maxlength="300"></textarea>
+
+		      <p th:if="${#fields.hasErrors('comment')}"
+		         th:errors="*{comment}"></p>
+		  </div>
 
         <!-- 画像 -->
         <div class="form-group">

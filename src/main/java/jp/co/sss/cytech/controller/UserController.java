@@ -56,13 +56,19 @@ public class UserController {
         user.setPassword(form.getPassword());
 
         // MySQLに保存
-        repository.save(user);
+        try {
+            repository.save(user);
+
+        } catch (Exception e) {
+            System.out.println("ユーザー登録に失敗しました");
+            return "users/register";
+        }
 
         // 登録後はログイン画面へ
         return "redirect:/login";
-    }
+         }
     
- // マイページ表示
+    // マイページ表示
     @RequestMapping(path = "/mypage", method = RequestMethod.GET)
     public String showMypage(
             HttpSession session,
